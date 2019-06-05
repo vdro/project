@@ -1,0 +1,122 @@
+<div class="container">
+  <h1>Add New Profile</h1>
+  <hr>
+  <div class="row">
+
+
+    <div class="col-md-9 personal-info">
+
+      <h3>Personal info</h3>
+
+      <form class="form-horizontal" 
+        role="form" 
+        novalidate
+        [formGroup]="userForm">
+
+        <div class="form-group" >
+          <!-- class="has-error"-->
+          <label class="col-lg-3 control-label">First name:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text" formControlName="firstName" 
+             [ngClass]="{ 'is-invalid':(userForm.get('firstName').touched || userForm.get('firstName').dirty) &&!userForm.get('firstName').valid
+            }">
+            <!--<div>
+              <span class="text-danger">Error message</span>
+            </div>-->
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Last name:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text" formControlName="lastName" [ngClass]="{ 'is-invalid':(userForm.get('lastName').touched || userForm.get('lastName').dirty) &&!userForm.get('lastName').valid
+            }">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Email:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text"  formControlName="email" [ngClass]="{ 'is-invalid':(userForm.get('email').touched || userForm.get('email').dirty) &&!userForm.get('email').valid
+            }">
+            <span *ngIf = "(userForm.get('email').touched || userForm.get('email').dirty) &&!userForm.get('email').valid" class="help-block">"Podany email jest nieprawidlowy"</span>
+          </div>
+        </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Token:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" formControlName="Token" [ngClass]="{ 'is-invalid':(userForm.get('Token').touched || userForm.get('Token').dirty) &&!userForm.get('Token').valid
+                      }">
+            </div>
+          </div>
+
+<div formGroupName="phoneGroup">
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Phone:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text" formControlName="phone" [ngClass]="{ 'is-invalid':userForm.get('phoneGroup').valid
+            }">
+          </div>
+
+        </div>
+        <hr>
+        <span class="col-lg-3 control-label" style="width: 400px; margin-bottom: 52px;">How would you like to verify this form:</span>
+        
+        <div class="form-group">      
+          <div class="col-md-8">
+            <label class="col-md-3 control-label">By Email: <input type="radio" formControlName="verification" value="email" checked></label>
+          </div>
+        </div>
+     
+                <div class="form-group">
+          <div class="col-md-8">
+            <label class="col-md-3 control-label">By SMS : <input type="radio" formControlName="verification" value="sms"></label>
+          </div>
+        </div>
+
+</div>
+<hr>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Username:</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text"  formControlName="username">
+            <span *ngIf="userExists" class="text-danger">this user already exists !</span>
+          </div>
+        </div>
+
+        <div formGroupName="pswdGroup">
+          
+          <div class="form-group" >
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password"  formControlName="password" [ngClass]="{ 'has-error':(userForm.get('pswdGroup.password').touched || userForm.get('pswdGroup.password').dirty) &&!userForm.get('pswdGroup.password').valid
+              }">
+            
+              <span *ngIf="userForm.get('pswdGroup.password').errors?.pattern"> {{passwordPatternMsg}}
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password"  formControlName="cPassword" [ngClass]="{ 'has-error':(userForm.get('pswdGroup.cPassword').touched || userForm.get('pswdGroup.cPassword').dirty) &&!userForm.get('pswdGroup.cPassword').valid
+              }">
+              <span *ngIf="userForm.get('pswdGroup').errors?.matchPasswords">
+                {{matchPasswordsMsg}}
+              </span>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label"></label>
+          <div class="col-md-8">
+            <input type="button" class="btn btn-primary" value="Save Changes">
+            <span></span>
+            <input type="reset" class="btn btn-default" value="Cancel">
+            <span></span>
+            <input type="button" class="btn btn-default" value="Test" (click)="populateTestData()">
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+<hr>
