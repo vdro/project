@@ -17,7 +17,16 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Compile Remove="ClientApp\app\components\counter\**" />
+    <Compile Remove="ClientApp\app\components\fetchdata\**" />
+    <Compile Remove="ClientApp\app\components\home\**" />
     <Content Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ClientApp\app\components\counter\**" />
+    <EmbeddedResource Remove="ClientApp\app\components\fetchdata\**" />
+    <EmbeddedResource Remove="ClientApp\app\components\home\**" />
+    <None Remove="ClientApp\app\components\counter\**" />
+    <None Remove="ClientApp\app\components\fetchdata\**" />
+    <None Remove="ClientApp\app\components\home\**" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
