@@ -1,0 +1,181 @@
+{
+    "$connections": {
+        "value": {
+            "googlecontacts": {
+                "connectionId": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/resourceGroups/Learning/providers/Microsoft.Web/connections/googlecontacts",
+                "connectionName": "googlecontacts",
+                "id": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/providers/Microsoft.Web/locations/westeurope/managedApis/googlecontacts"
+            },
+            "googletasks": {
+                "connectionId": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/resourceGroups/Learning/providers/Microsoft.Web/connections/googletasks",
+                "connectionName": "googletasks",
+                "id": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/providers/Microsoft.Web/locations/westeurope/managedApis/googletasks"
+            },
+            "office365": {
+                "connectionId": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/resourceGroups/Learning/providers/Microsoft.Web/connections/office365",
+                "connectionName": "office365",
+                "id": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+            },
+            "onedriveforbusiness": {
+                "connectionId": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/resourceGroups/Learning/providers/Microsoft.Web/connections/onedriveforbusiness",
+                "connectionName": "onedriveforbusiness",
+                "id": "/subscriptions/51270773-eb07-41f9-a42d-969383499e7d/providers/Microsoft.Web/locations/westeurope/managedApis/onedriveforbusiness"
+            }
+        }
+    },
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Compose": {
+                "inputs": "@{triggerBody()?['FirstName']}   @{triggerBody()?['LastName']}  @{triggerBody()?['PhoneNumber']}  @{triggerBody()?['Email']}",
+                "runAfter": {},
+                "type": "Compose"
+            },
+            "Create_a_contact": {
+                "inputs": {
+                    "body": {
+                        "displayName": "@{triggerBody()?['FirstName']} @{triggerBody()?['LastName']}",
+                        "workEmail": "@triggerBody()?['Email']",
+                        "workPhoneNumber": "@triggerBody()?['PhoneNumber']"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['googlecontacts']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/m8/feeds/contacts/default/full"
+                },
+                "runAfter": {
+                    "Create_a_task_in_a_task_list": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "Create_a_task_in_a_task_list": {
+                "inputs": {
+                    "body": {
+                        "title": "Zadzwon do ziomka @{triggerBody()?['FirstName']} @{triggerBody()?['LastName']} pod numer @{triggerBody()?['PhoneNumber']} i wyjasnij sprawe"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['googletasks']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/lists/@{encodeURIComponent('MTM2MjMxMDE4MTkzMTYwNzQwNzA6NDQzNjA5Mjc0MDQ3Mjk0Mjow')}/tasks"
+                },
+                "runAfter": {
+                    "Send_an_email": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "Create_file": {
+                "inputs": {
+                    "body": "@outputs('Compose')",
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['onedriveforbusiness']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/datasets/default/files",
+                    "queries": {
+                        "folderPath": "/Notebooks",
+                        "name": "Formularz od @{triggerBody()?['FirstName']} @{triggerBody()?['LastName']}.txt"
+                    }
+                },
+                "runAfter": {
+                    "Compose": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "contentTransfer": {
+                        "transferMode": "Chunked"
+                    }
+                },
+                "type": "ApiConnection"
+            },
+            "Send_an_email": {
+                "inputs": {
+                    "body": {
+                        "Attachments": [
+                            {
+                                "ContentBytes": "@{base64(outputs('Compose'))}",
+                                "Name": "Formularz od @{triggerBody()?['FirstName']} @{triggerBody()?['LastName']}.txt"
+                            }
+                        ],
+                        "Body": "Dane Osobnika:\nImie: @{triggerBody()?['FirstName']}\nNazwisko: @{triggerBody()?['LastName']}\nEmail: @{triggerBody()?['Email']}\nTelefon: @{triggerBody()?['PhoneNumber']}",
+                        "Subject": "Nowy plik od @{triggerBody()?['FirstName']} @{triggerBody()?['LastName']}",
+                        "To": "tomasz.faldrowicz@inkubit.com"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/Mail"
+                },
+                "runAfter": {
+                    "Create_file": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "staticResult": {
+                        "name": "Send_an_email0",
+                        "staticResultOptions": "Disabled"
+                    }
+                },
+                "type": "ApiConnection"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "staticResults": {
+            "Send_an_email0": {
+                "outputs": {
+                    "headers": {},
+                    "statusCode": "OK"
+                },
+                "status": "Succeeded"
+            }
+        },
+      "triggers": {
+        "manual": {
+          "inputs": {
+            "schema": {
+              "properties": {
+                "Email": {
+                  "type": "string"
+                },
+                "FirstName": {
+                  "type": "string"
+                },
+                "LastName": {
+                  "type": "string"
+                },
+                "PhoneNumber": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "kind": "Http",
+          "type": "Request"
+        }
+      }
+    }
+}
