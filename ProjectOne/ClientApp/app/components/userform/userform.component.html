@@ -18,7 +18,7 @@
                     <label class="col-lg-3 control-label">First name:</label>
                     <div class="col-lg-8">
                         <input class="form-control" type="text" formControlName="firstName"
-                               [ngClass]="{ 'is-invalid':(userForm.get('firstName').touched || userForm.get('firstName').dirty) &&!userForm.get('firstName').valid
+                               [ngClass]="{ 'is-invalid':(userForm.get('firstName').touched || userForm.get('firstName').dirty) && !userForm.get('firstName').valid
             }">
                         <!--<div>
               <span class="text-danger">Error message</span>
@@ -28,14 +28,14 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Last name:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" type="text" formControlName="lastName" [ngClass]="{ 'is-invalid':(userForm.get('lastName').touched || userForm.get('lastName').dirty) &&!userForm.get('lastName').valid
+                        <input class="form-control" type="text" formControlName="lastName" [ngClass]="{ 'is-invalid':(userForm.get('lastName').touched || userForm.get('lastName').dirty) && !userForm.get('lastName').valid
             }">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Email:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" type="text" formControlName="email" [ngClass]="{ 'is-invalid':(userForm.get('email').touched || userForm.get('email').dirty) &&!userForm.get('email').valid
+                        <input class="form-control" type="text" formControlName="email" [ngClass]="{ 'is-invalid':(userForm.get('email').touched || userForm.get('email').dirty) && !userForm.get('email').valid
             }">
                         <span *ngIf="(userForm.get('email').touched || userForm.get('email').dirty) &&!userForm.get('email').valid" class="help-block">"Please....l2WriteAnEmail"</span>
                     </div>
@@ -93,30 +93,29 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Password:</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="password" formControlName="password" [ngClass]="{ 'has-error':(userForm.get('pswdGroup.password').touched || userForm.get('pswdGroup.password').dirty) &&!userForm.get('pswdGroup.password').valid
-              }">
-
-                            <span *ngIf="userForm.get('pswdGroup.password').errors?.pattern">
-                                {{passwordPatternMsg}}
-                            </span>
+                            <input class="form-control" type="password" formControlName="password" [ngClass]="{ 'is-invalid':(userForm.get('pswdGroup.password').touched || userForm.get('pswdGroup.password').dirty) && userForm.get('pswdGroup').errors?.matchPasswords }">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Confirm password:</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="password" formControlName="cPassword" [ngClass]="{ 'has-error':(userForm.get('pswdGroup.cPassword').touched || userForm.get('pswdGroup.cPassword').dirty) &&!userForm.get('pswdGroup.cPassword').valid
+                            <input class="form-control" type="password" formControlName="cPassword" [ngClass]="{ 'is-invalid':(userForm.get('pswdGroup.cPassword').touched || userForm.get('pswdGroup.cPassword').dirty) && userForm.get('pswdGroup').errors?.matchPasswords
               }">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-8">
                             <span *ngIf="userForm.get('pswdGroup').errors?.matchPasswords">
                                 {{matchPasswordsMsg}}
                             </span>
                         </div>
                     </div>
-
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
-                        <input type="button" class="btn btn-primary" value="Send Form" (click)="populateTestData()">
+                        <input type="button" class="btn btn-primary" value="Send Form" (click)="sendToAzure()">
                         <span></span>
                     </div>
                 </div>

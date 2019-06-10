@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime'
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 
 function passwordMatcher(c: AbstractControl): { [key: string]: boolean } | null {
@@ -39,6 +40,8 @@ function TokenRequired(c: AbstractControl): { [key: string]: boolean } | null {
 
 }
 
+
+
 @Component({
     selector: 'userform',
     templateUrl: './userform.component.html',
@@ -52,7 +55,12 @@ export class UserFormComponent implements OnInit {
     passwordPatternMsg: string = '';
     userForm: FormGroup;
     userExists: boolean = false;
-    constructor(private formBuilder: FormBuilder) { }
+    baseUrl: string = "";
+    http: Http;
+    constructor(private formBuilder: FormBuilder, http: Http, @Inject('BASE_URL') baseUrl: string) {
+        this.baseUrl = baseUrl;
+        this.http = http;
+    }
 
     ngOnInit() {
 
@@ -60,7 +68,7 @@ export class UserFormComponent implements OnInit {
             firstName: ['', [Validators.required, Validators.minLength(3)]],
             lastName: ['', [Validators.required, Validators.maxLength(50)]],
             email: ['', [Validators.required, Validators.email]],
- //username: ['', [Validators.required, Validators.minLength(3)]],
+            //username: ['', [Validators.required, Validators.minLength(3)]],
             Token: ['', [TokenRequired]],
             phoneGroup: this.formBuilder.group({
                 verification: [''],
@@ -69,7 +77,7 @@ export class UserFormComponent implements OnInit {
             }, { validator: phoneRequired }),
 
             pswdGroup: this.formBuilder.group({
-                password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/)]],
+                password: ['', [Validators.required]],
                 cPassword: ['', [Validators.required]]
 
             }, { validator: passwordMatcher })
@@ -90,8 +98,8 @@ export class UserFormComponent implements OnInit {
         if (password) {
             password.valueChanges.debounceTime(500).subscribe(value => {
                 this.passwordPatternMsg = '';
-                if (password && (password.touched || password.dirty) && password.getError('pattern')) {
-                    this.passwordPatternMsg = this.passwordMessages['pattern'];
+                if (password && (password.touched || password.dirty) && passwordGroup && passwordGroup.getError('matchPasswords')) {
+                    this.matchPasswordsMsg = this.passwordMessages['matchPasswords'];
                 }
             });
         }
@@ -106,7 +114,24 @@ export class UserFormComponent implements OnInit {
         }
     }
 
-    
+    sendToAzure() {
+        //if (!this.userForm.get("firstName") || !this.userForm.get("lastName") || !this.userForm.get("email") || !this.userForm.get("phoneNumber"))
+            //return;
+        var test = {
+            "FirstName": "Mieszko",
+            "LastName": "Pierwszy",
+            "Email": "123@123.PL",
+            "PhoneNumber": "555 666 777"
+        }   
+        let data = JSON.stringify(test);
+        //let headers = new HttpHeaders();
+        //headers.set('Content-Type', 'application/json');
+        let headers = new Headers({ 'Content-Type': 'application/json' });
 
+        //var body = "firstname=" + this.userForm.get("firstName").value + "&lastname=" + this.userForm.get("lastName").value + "&email=" + this.userForm.get("email").value + "&phoneNumber=" + this.userForm.get("phoneNumber").value;
+        var body = "firstname=abc&lastname=zhp&email=qqq@wp.pl&phonenumber=123";
+        let options = new RequestOptions({ headers: headers });
 
+        this.http.post(this.baseUrl + 'api/Azure/TriggerLogicApp', data, options).subscribe(data => { console.log(data) });
+    }
 }
