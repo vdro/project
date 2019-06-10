@@ -28,18 +28,20 @@ function phoneRequired(c: AbstractControl): { [key: string]: boolean } | null {
     }
 
 }
-function TokenRequired(c: AbstractControl): { [key: string]: boolean } | null {
-    //let verification = c.get("verification");
-    //let token = c.get("Token");
-    if (c.value == "abc123" && c.value.length) {
-        return null;
-    }
-    return {
-        valid: false
-    }
 
-}
 
+
+//function TokenRequired(c: AbstractControl): { [key: string]: boolean } | null {
+//    //let verification = c.get("verification");
+//    //let token = c.get("Token");
+//    if (c.value == "abc123" && c.value.length) {
+//        return null;
+//    }
+//    return {
+//        valid: false
+//    }
+
+//}
 
 
 @Component({
@@ -68,8 +70,10 @@ export class UserFormComponent implements OnInit {
             firstName: ['', [Validators.required, Validators.minLength(3)]],
             lastName: ['', [Validators.required, Validators.maxLength(50)]],
             email: ['', [Validators.required, Validators.email]],
+     //       phoneNumber: ['', [Validators.required, Validators.minLength(3)]],
+
             //username: ['', [Validators.required, Validators.minLength(3)]],
-            Token: ['', [TokenRequired]],
+           // Token: ['', [TokenRequired]],
             phoneGroup: this.formBuilder.group({
                 verification: [''],
                 phone: ['', [Validators.pattern("[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}")]],
@@ -115,23 +119,35 @@ export class UserFormComponent implements OnInit {
     }
 
     sendToAzure() {
-        //if (!this.userForm.get("firstName") || !this.userForm.get("lastName") || !this.userForm.get("email") || !this.userForm.get("phoneNumber"))
-            //return;
-        var test = {
-            "FirstName": "Mieszko",
-            "LastName": "Pierwszy",
-            "Email": "123@123.PL",
-            "PhoneNumber": "555 666 777"
+        var formData = {
+            "FirstName": this.getFormValueOrEmptyString("firstName"),
+            "LastName": this.getFormValueOrEmptyString("lastName"),
+            "Email": this.getFormValueOrEmptyString("email"),
+            "PhoneNumber": this.getFormValueOrEmptyString("phoneGroup.phone"),
         }   
-        let data = JSON.stringify(test);
-        //let headers = new HttpHeaders();
-        //headers.set('Content-Type', 'application/json');
+        let data = JSON.stringify(formData);
         let headers = new Headers({ 'Content-Type': 'application/json' });
 
-        //var body = "firstname=" + this.userForm.get("firstName").value + "&lastname=" + this.userForm.get("lastName").value + "&email=" + this.userForm.get("email").value + "&phoneNumber=" + this.userForm.get("phoneNumber").value;
-        var body = "firstname=abc&lastname=zhp&email=qqq@wp.pl&phonenumber=123";
         let options = new RequestOptions({ headers: headers });
 
         this.http.post(this.baseUrl + 'api/Azure/TriggerLogicApp', data, options).subscribe(data => { console.log(data) });
+    }
+
+    userFormFilled() {
+        let email = this.userForm.get('email');
+        if (!email) return false;
+        
+        return this.getFormValueOrEmptyString("firstName") != ''
+            && this.getFormValueOrEmptyString("lastName") != ''
+            && this.getFormValueOrEmptyString("email") != ''
+            && this.getFormValueOrEmptyString("phoneGroup.phone") != ''
+            && email.valid
+}
+
+    getFormValueOrEmptyString(propertyName: string): string {
+        let formControl = this.userForm.get(propertyName);
+
+        if (!formControl) return '';
+        return formControl.value;
     }
 }
