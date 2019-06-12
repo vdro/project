@@ -9,7 +9,9 @@ Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "AzureLogicApp", "AzureLogic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectOne.SpecFlow", "ProjectOne.SpecFlow\ProjectOne.SpecFlow.csproj", "{7A9B5425-536F-4DEE-8B2A-269E73D5E49C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{B41283B3-B898-4A86-8CAE-CE44F20D28CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{B41283B3-B898-4A86-8CAE-CE44F20D28CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserForm.Tests", "UserForm.Tests\UserForm.Tests.csproj", "{506D0B8F-7C57-4DB5-A856-15CFF9A89D51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B41283B3-B898-4A86-8CAE-CE44F20D28CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B41283B3-B898-4A86-8CAE-CE44F20D28CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B41283B3-B898-4A86-8CAE-CE44F20D28CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{506D0B8F-7C57-4DB5-A856-15CFF9A89D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506D0B8F-7C57-4DB5-A856-15CFF9A89D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506D0B8F-7C57-4DB5-A856-15CFF9A89D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506D0B8F-7C57-4DB5-A856-15CFF9A89D51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

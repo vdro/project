@@ -21,8 +21,8 @@
                                [ngClass]="{ 'is-invalid':(userForm.get('firstName').touched || userForm.get('firstName').dirty) && !userForm.get('firstName').valid
             }">
                         <!--<div>
-              <span class="text-danger">Error message</span>
-            </div>-->
+                          <span class="text-danger">Error message</span>
+                        </div>-->
                     </div>
                 </div>
                 <div class="form-group">
@@ -40,7 +40,7 @@
                         <span *ngIf="(userForm.get('email').touched || userForm.get('email').dirty) &&!userForm.get('email').valid" class="help-block">"Please....l2WriteAnEmail"</span>
                     </div>
                 </div>
-                
+
 
                 <div formGroupName="phoneGroup">
                     <div class="form-group">
@@ -73,20 +73,10 @@
                     </div>
 
                 </div>
-              
-                
-             
-                <hr />
+                               
+                <hr/>
                 <h4>Be smart and choose password</h4>
 
-
-                <!--<div class="form-group">
-        <label class="col-md-3 control-label">Username:</label>
-        <div class="col-md-8">
-            <input class="form-control" type="text" formControlName="username">
-            <span *ngIf="userExists" class="text-danger">this user already exists !</span>
-        </div>
-    </div>-->
 
                 <div formGroupName="pswdGroup">
 
@@ -123,3 +113,4 @@
         </div>
     </div>
     <hr>
+</div>

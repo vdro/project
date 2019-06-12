@@ -18,13 +18,14 @@ namespace ProjectOne.Controllers
         [HttpPost("[action]")]
         public async Task<bool> TriggerLogicApp([FromBody]AzureModel model)
         {
-            var client = new HttpClient();
-
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(logicAppUrl, content);
-            response.EnsureSuccessStatusCode();
-            return true;
+            using (var client = new HttpClient())
+            {
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(logicAppUrl, content);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
         }
     }
 
