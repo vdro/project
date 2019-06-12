@@ -12,9 +12,9 @@ namespace UserForm.Tests
             var controller = new AzureController();
             var result = controller.TriggerLogicApp(new AzureModel
             {
-                Email = "Test",
+                Email = "test@123.pl",
                 FirstName = "Ziom",
-                LastName = "test@123.pl",
+                LastName = "LastName",
                 PhoneNumber = "5554555"
             }).GetAwaiter().GetResult();
 

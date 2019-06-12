@@ -130,7 +130,10 @@ export class UserFormComponent implements OnInit {
 
         let options = new RequestOptions({ headers: headers });
 
-        this.http.post(this.baseUrl + 'api/Azure/TriggerLogicApp', data, options).subscribe(data => { console.log(data) });
+        this.http.post(this.baseUrl + 'api/Azure/TriggerLogicApp', data, options).subscribe(data => {
+            alert("Ale super, jupi! :)");
+            console.log(data);
+        });
     }
 
     userFormFilled() {
