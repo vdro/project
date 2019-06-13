@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjectOne.Controllers;
+using ProjectOne.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
