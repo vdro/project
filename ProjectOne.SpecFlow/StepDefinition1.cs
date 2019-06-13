@@ -2,10 +2,14 @@
 using ProjectOne.Controllers;
 using ProjectOne.Models;
 using System;
+using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TechTalk.SpecFlow;
+using ProjectOne.Interfaces;
+using System.Threading.Tasks;
+
 
 namespace ProjectOne.SpecFlow
 {
@@ -14,6 +18,7 @@ namespace ProjectOne.SpecFlow
     {
         private readonly ScenarioContext context;
         private AzureController azureController;
+        private bool azureResult;  
 
         public StepDefinition1(ScenarioContext injectedContext)
         {
@@ -23,7 +28,10 @@ namespace ProjectOne.SpecFlow
         [Given(@"AzureController initiated with dependencies")]
         public void GivenAzureControllerInitiatedWithDependencies()
         {
-            azureController = new AzureController();
+            var azureServiceMock = new Mock<IAzureService>();
+            azureServiceMock.Setup(x => x.TriggerLogicApp(It.IsAny<AzureModel>())).Returns(Task.FromResult(true));
+
+            azureController = new AzureController(azureServiceMock.Object);
         }
 
         [When(@"calling the TriggerLogicApp with below AzureModel")]
@@ -38,14 +46,13 @@ namespace ProjectOne.SpecFlow
                 PhoneNumber = row["PhoneNumber"]
             };
 
-            await azureController.TriggerLogicApp(azureModel);
+            azureResult = await azureController.TriggerLogicApp(azureModel);
         }
 
         [Then(@"something happens")]
         public void ThenSomethingHappens()
         {
-            //jakis assert albo co tam testujemy
-            //np jakby troche przerobic controler zeby client http byl wrzucany przez IOC to mozna go zmockowac
+            Assert.IsTrue(azureResult);
         }
 
     }
