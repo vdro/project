@@ -18,7 +18,7 @@ namespace ProjectOne.SpecFlow
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class SpecFlowFeature1Feature
+    public partial class FormTestFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -44,7 +44,8 @@ namespace ProjectOne.SpecFlow
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "SpecFlowFeature1", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FormTest", "In order to avoid silly mistakes\r\nAs a UserForm Sender\r\nI want to be able to fill" +
+                    " and send form correctly", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -59,9 +60,9 @@ namespace ProjectOne.SpecFlow
         public virtual void TestInitialize()
         {
             if (((testRunner.FeatureContext != null) 
-                        && (testRunner.FeatureContext.FeatureInfo.Title != "SpecFlowFeature1")))
+                        && (testRunner.FeatureContext.FeatureInfo.Title != "FormTest")))
             {
-                global::ProjectOne.SpecFlow.SpecFlowFeature1Feature.FeatureSetup(null);
+                global::ProjectOne.SpecFlow.FormTestFeature.FeatureSetup(null);
             }
         }
         
@@ -88,15 +89,15 @@ namespace ProjectOne.SpecFlow
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("My example scenario")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SpecFlowFeature1")]
-        public virtual void MyExampleScenario()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Example Scenario with correct information provided")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "FormTest")]
+        public virtual void ExampleScenarioWithCorrectInformationProvided()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("My example scenario", null, ((string[])(null)));
-#line 3
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Example Scenario with correct information provided", null, ((string[])(null)));
+#line 7
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 4
+#line 8
 testRunner.Given("AzureController initiated with dependencies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -109,9 +110,9 @@ testRunner.Given("AzureController initiated with dependencies", ((string)(null))
                         "SpecFlow",
                         "email@example.com",
                         "555"});
-#line 5
+#line 9
 testRunner.When("calling the TriggerLogicApp with below AzureModel", ((string)(null)), table1, "When ");
-#line 8
+#line 12
 testRunner.Then("something happens", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
